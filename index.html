@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine 🐼💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255,255,255,0.55), transparent 60%),
+    linear-gradient(
+      180deg,
+      #fdf6f9 0%,
+      #f3d9e3 45%,
+      #e9c3d3 75%,
+      #d8aebf 100%
+    );
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    transparent 55%,
+    rgba(0,0,0,0.18) 100%
+  );
+}
+
+  .page {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+  position: absolute;
+  inset: 0;
+}
+
+  .page.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.heart {
+  position: absolute;
+  font-size: 24px;
+  animation: fly 1.2s ease-out forwards;
+  pointer-events: none;
+}
+
+.light {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  filter: blur(1px);
+  animation: float 14s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(100vh) scale(0.8);
+    opacity: 0;
+  }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  to {
+    transform: translateY(-10vh) scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes fly {
+  0% {
+    transform: scale(1) translate(0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.8) translate(var(--x), var(--y));
+    opacity: 0;
+  }
+}
+
+.bg {
+  width: 100%;
+  height: 65vh;
+  object-fit: contain;
+  margin-top: 20px;
+  filter:
+    drop-shadow(0 25px 35px rgba(0,0,0,0.18))
+    drop-shadow(0 8px 12px rgba(0,0,0,0.08));
+}
+
+h1 {
+  color: #7a2e4d;
+  padding: 20px;
+  text-shadow:
+    0 2px 8px rgba(255,255,255,0.6),
+    0 6px 20px rgba(0,0,0,0.1);
+}
+
+  button {
+    padding: 15px 30px;
+    font-size: 20px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    background: #e91e63;
+    color: white;
+  }
+
+  #yesBtn {
+  position: absolute;
+  left: 50%;
+  top: 80%;
+  transform: translateX(-120%);
+}
+
+#noBtn {
+  position: absolute;
+  left: 50%;
+  top: 80%;
+  transform: translateX(20%);
+  background: #aaa;
+}
+
+
+  .next {
+    margin-top: 20px;
+  }
+
+  .calendar {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 12px 25px;
+    background: #e91e63;
+    color: white;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+  #calendarOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.calendarBox {
+  background: rgba(255,255,255,0.9);
+  padding: 30px;
+  border-radius: 25px;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
+  <img src="assets/panda-couple.png" class="bg">
+  <h1>Do you want to be my Valentine? 💕</h1>
+  <button id="yesBtn">Yes 💖</button>
+  <button id="noBtn">No 🙃</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+  <img src="assets/panda-shy-flowers.png" class="bg">
+  <h1>I knew you would say yes 🥰</h1>
+  <button class="next" onclick="goToPage(3)">Next ➜</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="page">
+  <img src="assets/panda-piano.png" class="bg">
+  <h1>
+    Je nachdem wie Lernen läuft habe ich was vorbereitet.<br><br>
+    <strong>14. Februar · Abends</strong><br>
+    Trag es dir in den Kalender ein 💌
+  </h1>
+
+  <div id="calendarOverlay">
+    <div class="calendarBox">
+      <h2>Fast geschafft 💌</h2>
+      <p>
+        Dein Kalender öffnet sich gleich.<br>
+        Falls nicht: Lade die Datei herunter<br>
+        und öffne sie kurz 💕
+      </p>
+  
+      <a href="assets/valentinstag.ics" download class="calendar">
+        📅 Termin hinzufügen
+      </a>
+  
+      <button class="next" onclick="closeCalendar()">Okay ✨</button>
+    </div>
+  </div>
+
+  <button class="calendar" onclick="openCalendar()">
+    📅 In Kalender eintragen
+  </button>
+</div>
+
+<audio id="music1" src="assets/love-is-an-open-door.mp3"></audio>
+<audio id="music2" src="assets/nocturne-op9-no2.mp3" loop></audio>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+function moveNoButton() {
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 80);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("mouseenter", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
+
+yesBtn.addEventListener("click", (e) => {
+  heartExplosion(e.clientX, e.clientY);
+  fadeIn(document.getElementById("music1"), 2500);
+
+  setTimeout(() => {
+    goToPage(2);
+  }, 600);
+});
+
+function fadeIn(audio, duration = 2000) {
+  audio.volume = 0;
+  audio.play();
+  let step = 0.05;
+  const interval = duration / (1 / step);
+
+  const fade = setInterval(() => {
+    if (audio.volume < 1) {
+      audio.volume = Math.min(1, audio.volume + step);
+    } else {
+      clearInterval(fade);
+    }
+  }, interval);
+}
+
+function fadeOut(audio, duration = 2000) {
+  let step = 0.05;
+  const interval = duration / (1 / step);
+
+  const fade = setInterval(() => {
+    if (audio.volume > 0) {
+      audio.volume = Math.max(0, audio.volume - step);
+    } else {
+      audio.pause();
+      clearInterval(fade);
+    }
+  }, interval);
+}
+
+function goToPage(n) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page" + n).classList.add("active");
+
+  if (n === 3) {
+    fadeOut(document.getElementById("music1"), 2000);
+    fadeIn(document.getElementById("music2"), 3000);
+  }
+}
+  
+  function heartExplosion(x, y) {
+  for (let i = 0; i < 12; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "💖";
+    heart.style.left = x + "px";
+    heart.style.top = y + "px";
+    heart.style.setProperty("--x", `${Math.random() * 200 - 100}px`);
+    heart.style.setProperty("--y", `${Math.random() * 200 - 100}px`);
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 1200);
+  }
+}
+
+function createLights(count = 12) {
+  for (let i = 0; i < count; i++) {
+    const light = document.createElement("div");
+    light.className = "light";
+    light.style.left = Math.random() * 100 + "vw";
+    light.style.animationDelay = Math.random() * 14 + "s";
+    light.style.opacity = Math.random() * 0.5 + 0.2;
+    document.body.appendChild(light);
+  }
+}
+
+createLights();
+
+function openCalendar() {
+  document.getElementById("calendarOverlay").style.display = "flex";
+}
+
+function closeCalendar() {
+  document.getElementById("calendarOverlay").style.display = "none";
+}
+
+</script>
+
+
+</body>
+</html>
